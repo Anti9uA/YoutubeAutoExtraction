@@ -8,14 +8,16 @@
 pip install -r requirements.txt
 ```
 
-2. youtube_urls.txt에 추출하고자 하는 유튜브 링크를 한줄씩 구분해서 넣어주세요.
+2. youtube_urls.txt에 추출하고자 하는 유튜브 링크를 한줄씩 구분해서 넣어주세요.    
+
+**반드시 https://www.youtube.com/watch?v=asdfasdfasdf 와 같은 형식을 지켜서 넣어주세요!!** ❗❗
 ```
 // ** 예제 ** //
-https://youtu.be/asdfasdfasdfa
-https://youtu.be/qwerqwerqwerqw
+https://www.youtube.com/watch?v=asdfasdfasd
+https://www.youtube.com/watch?v=qwerqwerqwer
 ``` 
 
-3. 파이썬 실행
+1. 파이썬 실행
 ```
 python run.py
 ```

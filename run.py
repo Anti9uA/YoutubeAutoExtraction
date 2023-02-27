@@ -17,15 +17,16 @@ for video_url in video_urls:
     yt = YouTube(video_url)
     audio_stream = yt.streams.filter(only_audio=True).first()
     audio_filename = audio_stream.default_filename
-    audio_path = os.path.join('audio', audio_filename)
-    audio_stream.download(output_path='audio', filename=audio_filename)
+    audio_path = os.path.join('audios', audio_filename)
+    audio_stream.download(output_path='audios', filename=audio_filename)
 
     # extract transcript using YouTubeTranscriptApi
-    transcript = YouTubeTranscriptApi.get_transcript(video_id=video_url.split('=')[1], languages=['ko'])
+    video_id = video_url.split('=')[1] if len(video_url.split('=')) >= 2 else ''
+    transcript = YouTubeTranscriptApi.get_transcript(video_id=video_id, languages=['ko', 'en'])
 
     # save transcript to local file
     transcript_filename = os.path.splitext(audio_filename)[0] + '.txt'
-    transcript_path = os.path.join('script', transcript_filename)
+    transcript_path = os.path.join('scripts', transcript_filename)
     with open(transcript_path, 'w') as f:
         for line in transcript:
             f.write(line['text'] + '\n')
