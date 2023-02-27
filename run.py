@@ -1,7 +1,8 @@
 import os
 import requests
 from pytube import YouTube
-from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api import YouTubeTranscriptApi, NoTranscriptFound, TranscriptsDisabled
+
 
 # 디렉토리 생성
 os.makedirs('audios', exist_ok=True)
@@ -22,9 +23,16 @@ for video_url in video_urls:
 
     # YoutubeTranscriptApi를 이용해 스크립트 추출
     video_id = video_url.split('=')[1] if len(video_url.split('=')) >= 2 else ''
-    transcript = YouTubeTranscriptApi.get_transcript(video_id=video_id, languages=['ko', 'en'])
+    try:
+        transcript = YouTubeTranscriptApi.get_transcript(video_id=video_id, languages=['ko', 'en'])
+    except NoTranscriptFound:
+        print(f'Error: No transcript found for {video_url}')
+        continue
+    except TranscriptsDisabled:
+        print(f'Error: Transcripts have been disabled for {video_url}')
+        continue
 
-    # 로컬에 스크립트 저장
+    # 로컬파일에 저장
     transcript_filename = os.path.splitext(audio_filename)[0] + '.txt'
     transcript_path = os.path.join('scripts', transcript_filename)
     with open(transcript_path, 'w') as f:
